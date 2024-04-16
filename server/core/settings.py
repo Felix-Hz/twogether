@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     # drf
     "rest_framework",
     # manmade apps
-    "api.user",
+    "apps.user",
 ]
 
 MIDDLEWARE = [
@@ -57,7 +57,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "twogether_server.urls"
+ROOT_URLCONF = "core.urls"
 
 TEMPLATES = [
     {
@@ -75,7 +75,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "twogether_server.wsgi.application"
+WSGI_APPLICATION = "core.wsgi.application"
 
 
 """

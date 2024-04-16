@@ -15,11 +15,29 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+import os
 from django.contrib import admin
 from django.urls import include, path
+from django.http import HttpResponse
+
+current_user = os.environ.get("USER")
+
+
+def welcome(request):
+    current_user = (
+        request.user.username if request.user.is_authenticated else "Anonymous"
+    )
+    working_directory = os.getcwd().split("/")
+    current_working_directory = "/".join(working_directory[-2:])
+    server_host = request.META.get("HTTP_HOST", "Unknown host")
+    return HttpResponse(
+        f"Hello, World! This is {current_user} from {current_working_directory}. Running at: http://{server_host}"
+    )
+
 
 urlpatterns = [
-    path("", include("api.user.urls")),
+    path("", welcome),
+    path("user/", include("apps.user.urls")),
     path("api-auth/", include("rest_framework.urls")),
     path("admin/", admin.site.urls),
 ]
