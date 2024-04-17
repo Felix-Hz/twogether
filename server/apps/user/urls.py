@@ -1,10 +1,11 @@
 from django.urls import path
 
 from .views import (
-    WelcomeAPIView,
     SignUpAPIView,
     SignInAPIView,
     LogOutAPIView,
+    WelcomeAPIView,
+    CheckEmailAPIView,
     DeleteAccountAPIView,
     ModifyAccountAPIView,
 )
@@ -16,4 +17,5 @@ urlpatterns = [
     path("logout/", LogOutAPIView.as_view(), name="logout"),
     path("delete/", DeleteAccountAPIView.as_view(), name="delete"),
     path("modify/", ModifyAccountAPIView.as_view(), name="modify"),
+    path("check/", CheckEmailAPIView.as_view(), name="check-email"),
 ]

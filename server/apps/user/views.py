@@ -2,7 +2,9 @@
 
 from rest_framework import status
 from rest_framework.views import APIView
+from django.contrib.auth.models import User
 from rest_framework.response import Response
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer
@@ -22,7 +24,7 @@ class SignUpAPIView(APIView):
     Register user
     """
 
-    permission_classes = [AllowAny]
+    permission_classes = (AllowAny,)
 
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
@@ -32,12 +34,29 @@ class SignUpAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class CheckEmailAPIView(APIView):
+    """
+    Check if the email of the user exists
+    """
+
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        email = request.data.get("email")
+
+        try:
+            user = User.objects.get(email=email)
+            return Response({"exists": True}, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({"exists": False}, status=status.HTTP_200_OK)
+
+
 class SignInAPIView(APIView):
     """
     Log-in user
     """
 
-    permission_classes = [AllowAny]
+    permission_classes = (AllowAny,)
 
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
