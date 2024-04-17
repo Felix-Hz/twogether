@@ -3,9 +3,7 @@
 import { z } from "zod";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,8 +11,6 @@ import { Separator } from "@/components/ui/separator";
 import { FaGoogle, FaApple, FaFacebook } from "react-icons/fa";
 
 export default function Component() {
-  const [email, setEmail] = useState("");
-
   const formSchema = z.object({
     email: z
       .string()
@@ -24,12 +20,10 @@ export default function Component() {
 
   const { handleSubmit, control } = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-    },
   });
 
   const onSubmit = async (data: Record<string, any>) => {
+    console.log("Form data:", data);
     const response = await fetch("http://127.0.0.1:8000/user/check/", {
       method: "POST",
       headers: {
@@ -91,8 +85,7 @@ export default function Component() {
               id="email"
               placeholder="Email"
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              {...control.register("email")}
             />
           </div>
           <div className="space-y-2 pt-4">
@@ -101,7 +94,6 @@ export default function Component() {
             </Button>
           </div>
         </form>
-
 
         {/* ==========================
                     TERMS&COND
