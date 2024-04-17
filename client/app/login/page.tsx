@@ -1,40 +1,9 @@
-"use client";
-
-import { z } from "zod";
 import Link from "next/link";
 import Image from "next/image";
-import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { EmailForm, OAuth } from "@/components/login";
 import { Separator } from "@/components/ui/separator";
-import { FaGoogle, FaApple, FaFacebook } from "react-icons/fa";
 
 export default function Component() {
-  const formSchema = z.object({
-    email: z
-      .string()
-      .min(1, { message: "This field has to be filled." })
-      .email({ message: "Please enter a valid email address." }),
-  });
-
-  const { handleSubmit, control } = useForm({
-    resolver: zodResolver(formSchema),
-  });
-
-  const onSubmit = async (data: Record<string, any>) => {
-    console.log("Form data:", data);
-    const response = await fetch("http://127.0.0.1:8000/user/check/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    const responseData = await response.json();
-    console.log(responseData);
-  };
-
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="max-w-sm space-y-4 px-4 py-8 bg-gray-100/70 rounded-lg">
@@ -59,18 +28,7 @@ export default function Component() {
         {/* ==========================
                     TODO: OAuth
             ==========================*/}
-        <Button className="w-full" variant="outline">
-          <FaGoogle className="text-lg" />
-          <p className="inline m-1.5">Continue with Google</p>
-        </Button>
-        <Button className="w-full" variant="outline">
-          <FaApple className="text-lg" />
-          <p className="inline m-1.5">Continue with Apple</p>
-        </Button>
-        <Button className="w-full" variant="outline">
-          <FaFacebook className="text-lg" />
-          <p className="inline m-1.5">Continue with Facebook</p>
-        </Button>
+        <OAuth />
 
         <Separator />
 
@@ -79,21 +37,7 @@ export default function Component() {
         {/* ==========================
                 FORM HANDLING
             ==========================*/}
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="space-y-2">
-            <Input
-              id="email"
-              placeholder="Email"
-              type="email"
-              {...control.register("email")}
-            />
-          </div>
-          <div className="space-y-2 pt-4">
-            <Button className="w-full text-lg" type="submit">
-              Continue
-            </Button>
-          </div>
-        </form>
+        <EmailForm />
 
         {/* ==========================
                     TERMS&COND
