@@ -11,7 +11,9 @@ import {
 
 interface SetterContextType {
   setUserExists: Dispatch<SetStateAction<boolean>>;
+  setInitialLanding: Dispatch<SetStateAction<boolean>>;
   setUserEmail: Dispatch<SetStateAction<string>>;
+  initialLanding: boolean;
   userExists: boolean;
   userEmail: string;
 }
@@ -22,6 +24,7 @@ export const SetterProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [userExists, setUserExists] = useState(false);
+  const [initialLanding, setInitialLanding] = useState(true);
   const [userEmail, setUserEmail] = useState("");
 
   useEffect(() => {
@@ -30,7 +33,14 @@ export const SetterProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <SetterContext.Provider
-      value={{ setUserExists, setUserEmail, userExists, userEmail }}
+      value={{
+        setUserExists,
+        setUserEmail,
+        setInitialLanding,
+        initialLanding,
+        userExists,
+        userEmail,
+      }}
     >
       {children}
     </SetterContext.Provider>

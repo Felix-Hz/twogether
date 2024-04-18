@@ -10,7 +10,7 @@ const API_ADDRESS =
   process.env.DJANGO_API_ADDRESS || `http://localhost:${PORT}`;
 
 export default function Form() {
-  var { setUserExists, setUserEmail } = useSetters();
+  var { setUserExists, setUserEmail, setInitialLanding } = useSetters();
 
   const formSchema = z.object({
     email: z
@@ -38,6 +38,7 @@ export default function Form() {
     ========================================================= */
     setUserEmail(data.email);
     setUserExists(responseData.exists);
+    setInitialLanding(false);
   };
 
   return (

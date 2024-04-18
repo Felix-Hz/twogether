@@ -2,10 +2,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { BaseLogin, useSetters } from "@/components/login";
+import {
+  BaseLogin,
+  useSetters,
+  WelcomeBackContainer,
+} from "@/components/login";
 
 export default function LoginContainer() {
-  const { userExists } = useSetters();
+  const { userExists, initialLanding } = useSetters();
 
   return (
     <div className="flex items-center justify-center min-h-screen">
@@ -18,7 +22,9 @@ export default function LoginContainer() {
           className="m-auto"
         />
 
-        <BaseLogin />
+        {initialLanding && <BaseLogin />}
+
+        {userExists && !initialLanding && <WelcomeBackContainer />}
 
         {/* ==========================
                     TERMS&COND
