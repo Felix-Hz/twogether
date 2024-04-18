@@ -7,23 +7,27 @@
 # https://medium.com/django-rest/django-rest-framework-login-and-register-user-fd91cf6029d5
 """
 
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
+
+CustomUser = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
     """
-    Serializer for User model
+    Serializer for CustomUser model
     """
 
     class Meta:
-        model = User
+        model = CustomUser
         fields = ("id", "username", "email", "first_name", "last_name")
         read_only_fields = ("id",)
         extra_kwargs = {
-            "email": {"validators": [UniqueValidator(queryset=User.objects.all())]},
+            "email": {
+                "validators": [UniqueValidator(queryset=CustomUser.objects.all())]
+            },
             "first_name": {"required": True},
             "last_name": {"required": True},
         }
@@ -37,7 +41,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(write_only=True, required=True)
 
     class Meta:
-        model = User
+        model = CustomUser
         fields = (
             "username",
             "password",
@@ -72,7 +76,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         """
         Register user
         """
-        user = User.objects.create_user(
+        user = CustomUser.objects.create_user(
             username=validated_data["username"],
             email=validated_data["email"],
             password=validated_data["password"],
@@ -87,5 +91,5 @@ class LoginSerializer(serializers.Serializer):
     Serializer for user login
     """
 
-    username = serializers.CharField(required=True)
+    email = serializers.EmailField(required=True)
     password = serializers.CharField(required=True, write_only=True)
