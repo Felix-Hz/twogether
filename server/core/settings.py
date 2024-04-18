@@ -69,6 +69,11 @@ CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = "core.urls"
 
+AUTHENTICATION_BACKENDS = [
+    "apps.user.custom_authenticate.EmailBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
