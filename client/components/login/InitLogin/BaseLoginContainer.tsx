@@ -22,7 +22,7 @@ export default function Form() {
 
       <Separator />
 
-      <p className="text-center text-gray-600/75 font-semibold">or</p>
+      <p className="text-center text-gray-600/75 font-semibold py-2">or</p>
 
       {/* ==========================
                 FORM HANDLING

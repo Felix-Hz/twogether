@@ -7,7 +7,7 @@ export default function OAuth() {
     */
   return (
     <section>
-      <Button className="w-full mb-2" variant="outline">
+      <Button className="w-full my-2" variant="outline">
         <FaGoogle className="text-lg" />
         <p className="inline m-1.5">Continue with Google</p>
       </Button>
