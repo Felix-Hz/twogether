@@ -3,19 +3,20 @@
 import {
   useState,
   Dispatch,
-  useEffect,
   useContext,
   createContext,
   SetStateAction,
 } from "react";
 
 interface SetterContextType {
-  setUserExists: Dispatch<SetStateAction<boolean>>;
-  setInitialLanding: Dispatch<SetStateAction<boolean>>;
   setUserEmail: Dispatch<SetStateAction<string>>;
-  initialLanding: boolean;
-  userExists: boolean;
+  setUserExists: Dispatch<SetStateAction<boolean>>;
+  setValidPassword: Dispatch<SetStateAction<boolean>>;
+  setInitialLanding: Dispatch<SetStateAction<boolean>>;
   userEmail: string;
+  userExists: boolean;
+  validPassword: boolean;
+  initialLanding: boolean;
 }
 
 const SetterContext = createContext<SetterContextType | undefined>(undefined);
@@ -23,23 +24,22 @@ const SetterContext = createContext<SetterContextType | undefined>(undefined);
 export const SetterProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [userExists, setUserExists] = useState(false);
-  const [initialLanding, setInitialLanding] = useState(true);
   const [userEmail, setUserEmail] = useState("");
-
-  useEffect(() => {
-    console.log("userExists changed=", userExists);
-  }, [userExists]);
+  const [userExists, setUserExists] = useState(false);
+  const [validPassword, setValidPassword] = useState(false);
+  const [initialLanding, setInitialLanding] = useState(true);
 
   return (
     <SetterContext.Provider
       value={{
-        setUserExists,
         setUserEmail,
+        setUserExists,
+        setValidPassword,
         setInitialLanding,
-        initialLanding,
-        userExists,
         userEmail,
+        userExists,
+        validPassword,
+        initialLanding,
       }}
     >
       {children}
