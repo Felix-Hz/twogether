@@ -32,9 +32,7 @@ export default function Form() {
         "Content-Type": "application/json",
       },
     });
-
-    const responseData = await response.json();
-
+    
     /* ================================
     * @NOTE: API returns status code. *
     ================================= */
