@@ -22,14 +22,13 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ("id", "username", "email", "first_name", "last_name")
+        fields = ("id", "username", "email", "full_name")
         read_only_fields = ("id",)
         extra_kwargs = {
             "email": {
                 "validators": [UniqueValidator(queryset=CustomUser.objects.all())]
             },
-            "first_name": {"required": True},
-            "last_name": {"required": True},
+            "full_name": {"required": True},
         }
 
 
@@ -43,12 +42,10 @@ class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = (
-            "username",
+            "email",
+            "full_name",
             "password",
             "password2",
-            "email",
-            "first_name",
-            "last_name",
         )
         extra_kwargs = {
             "password": {
@@ -57,8 +54,7 @@ class RegisterSerializer(serializers.ModelSerializer):
                 "validators": [validate_password],
             },
             "email": {"required": True},
-            "first_name": {"required": True},
-            "last_name": {"required": True},
+            "full_name": {"required": True},
         }
 
     def validate(self, attributes):
@@ -67,7 +63,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         """
         if attributes["password"] != attributes["password2"]:
             raise serializers.ValidationError(
-                {"password": "Password fields didn't match."}
+                {"password": "Password fields don't match."}
             )
 
         return attributes
@@ -80,8 +76,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             username=validated_data["username"],
             email=validated_data["email"],
             password=validated_data["password"],
-            first_name=validated_data["first_name"],
-            last_name=validated_data["last_name"],
+            full_name=validated_data["full_name"],
         )
         return user
 
