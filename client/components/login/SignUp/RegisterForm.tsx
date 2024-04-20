@@ -13,12 +13,12 @@ const API_ADDRESS =
   process.env.DJANGO_API_ADDRESS || `http://localhost:${PORT}`;
 
 export default function Form() {
-  const { userEmail } = useSetters();
+  const { userEmail, userCreated, setUserCreated } = useSetters();
 
   const formSchema = z
     .object({
       full_name: z.string().min(1, { message: "What should we call you?" }),
-      password1: z
+      password: z
         .string()
         .min(8, { message: "Password should be at least 8 characters long." })
         .refine(
@@ -35,9 +35,9 @@ export default function Form() {
               "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.",
           }
         ),
-        password2: z.string(),
+      password2: z.string(),
     })
-    .refine((data) => data.password1 === data.password2, {
+    .refine((data) => data.password === data.password2, {
       message: "Passwords do not match",
       path: ["confirmPassword"],
     });
@@ -53,20 +53,25 @@ export default function Form() {
   const onSubmit = async (data: Record<string, any>) => {
     data["email"] = userEmail;
     const body = JSON.stringify(data);
-    console.log(`body=${body}`);
 
-    // // @TODO: Encrypt password when travelling to the server.
-    // const response = await fetch(`${API_ADDRESS}/user/signup/`, {
-    //   body,
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // });
+    // @TODO: Encrypt password when travelling to the server.
+    const response = await fetch(`${API_ADDRESS}/user/signup/`, {
+      body,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     /* ================================
     * @NOTE: API returns status code. *
     ================================= */
+    if (response.status === 201) {
+      console.log(`User created successfully ${response.status}`);
+      setUserCreated(true);
+    } else {
+      console.error(`Error ${response.status}`);
+    }
   };
 
   return (
@@ -92,16 +97,16 @@ export default function Form() {
       </div>
       <div className="space-y-2 pb-4">
         <Label
-          htmlFor="password1"
+          htmlFor="password"
           className="block text-left font-semibold text-md"
         >
           Create a password
         </Label>
         <Input
-          id="password1"
+          id="password"
           placeholder="New password"
           type="password"
-          {...control.register("password1")}
+          {...control.register("password")}
         />
         {errors.password && (
           <ValidationMsg
@@ -128,6 +133,7 @@ export default function Form() {
           />
         )}
       </div>
+      <p>{userCreated ? "User created" : "Error creating the user"}</p>
       <div className="space-y-2 pt-4">
         <Button className="w-full text-lg" type="submit">
           Continue
