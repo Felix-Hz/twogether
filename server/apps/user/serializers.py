@@ -7,8 +7,9 @@
 # https://medium.com/django-rest/django-rest-framework-login-and-register-user-fd91cf6029d5
 """
 
-from django.contrib.auth import get_user_model
+import uuid
 from rest_framework import serializers
+from django.contrib.auth import get_user_model
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 
@@ -22,7 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ("id", "username", "email", "full_name")
+        fields = ("id", "email", "full_name")
         read_only_fields = ("id",)
         extra_kwargs = {
             "email": {
@@ -72,8 +73,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         """
         Register user
         """
+
+        # @NOTE: Users receive a UUID by default as username to avoid working around Django's user.
         user = CustomUser.objects.create_user(
-            username=validated_data["username"],
+            username=uuid.uuid4(),
             email=validated_data["email"],
             password=validated_data["password"],
             full_name=validated_data["full_name"],
