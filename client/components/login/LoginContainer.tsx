@@ -8,10 +8,10 @@ import {
   CompleteAccountContainer,
 } from "@/components/login";
 
-import { useSetters } from "@/context";
+import { useLoginSetters } from "@/context";
 
 export default function LoginContainer() {
-  const { userExists, initialLanding } = useSetters();
+  const { userExists, initialLanding } = useLoginSetters();
 
   return (
     <div className="flex items-center justify-center min-h-screen">

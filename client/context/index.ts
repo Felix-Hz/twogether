@@ -1,4 +1,4 @@
 /*============================
         STATE MANAGEMENT
 =============================*/
-export { useSetters, SetterProvider } from "./LoginContext";
+export { useLoginSetters, LoginSetterProvider } from "./LoginContext";

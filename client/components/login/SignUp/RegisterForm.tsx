@@ -1,7 +1,7 @@
 "use client";
 
 import { z } from "zod";
-import { useSetters } from "@/context";
+import { useLoginSetters } from "@/context";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,7 +14,7 @@ const API_ADDRESS =
   process.env.DJANGO_API_ADDRESS || `http://localhost:${PORT}`;
 
 export default function Form() {
-  const { userEmail, userCreated, setUserCreated } = useSetters();
+  const { userEmail, userCreated, setUserCreated } = useLoginSetters();
 
   const formSchema = z
     .object({

@@ -1,8 +1,8 @@
-import { useSetters } from "@/context";
+import { useLoginSetters } from "@/context";
 import { PasswordForm } from "@/components/login";
 
 export default function WelcomeBackLoginContainer() {
-  const { userEmail } = useSetters();
+  const { userEmail } = useLoginSetters();
   return (
     <section>
       <div className="space-y-2 text-center p-8">

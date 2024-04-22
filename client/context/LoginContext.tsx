@@ -23,7 +23,7 @@ interface SetterContextType {
 
 const SetterContext = createContext<SetterContextType | undefined>(undefined);
 
-export const SetterProvider: React.FC<{ children: React.ReactNode }> = ({
+export const LoginSetterProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [userEmail, setUserEmail] = useState("");
@@ -52,10 +52,10 @@ export const SetterProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-export const useSetters = () => {
+export const useLoginSetters = () => {
   const context = useContext(SetterContext);
   if (!context) {
-    throw new Error("useSetters must be used within a SetterProvider");
+    throw new Error("useLoginSetters must be used within a LoginSetterProvider");
   }
   return context;
 };

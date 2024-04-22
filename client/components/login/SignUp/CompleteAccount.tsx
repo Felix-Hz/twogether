@@ -1,9 +1,9 @@
-import { useSetters } from "@/context";
+import { useLoginSetters } from "@/context";
 import { RegisterForm } from "@/components/login";
 import { IoArrowBackCircle } from "react-icons/io5";
 
 export default function CompleteAccountContainer() {
-  const { userEmail, setInitialLanding } = useSetters();
+  const { userEmail, setInitialLanding } = useLoginSetters();
 
   const handleBackClick = () => {
     setInitialLanding(true);

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { useSetters } from "@/context";
+import { useLoginSetters } from "@/context";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,7 @@ const API_ADDRESS =
   process.env.DJANGO_API_ADDRESS || `http://localhost:${PORT}`;
 
 export default function Form() {
-  const { userEmail, setValidPassword, validPassword } = useSetters();
+  const { userEmail, setValidPassword, validPassword } = useLoginSetters();
 
   const formSchema = z.object({
     password: z.string().min(1, { message: "This field has to be filled." }),

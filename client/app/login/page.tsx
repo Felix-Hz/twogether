@@ -1,10 +1,10 @@
-import { SetterProvider } from "@/context";
+import { LoginSetterProvider } from "@/context";
 import { LoginContainer } from "@/components/login";
 
 export default function LoginRoute() {
   return (
-    <SetterProvider>
+    <LoginSetterProvider>
       <LoginContainer />
-    </SetterProvider>
+    </LoginSetterProvider>
   );
 }
