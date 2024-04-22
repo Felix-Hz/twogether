@@ -1,7 +1,7 @@
 import { z } from "zod";
+import { useSetters } from "@/context";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-import { useSetters } from "@/components/login";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -32,7 +32,7 @@ export default function Form() {
         "Content-Type": "application/json",
       },
     });
-    
+
     /* ================================
     * @NOTE: API returns status code. *
     ================================= */

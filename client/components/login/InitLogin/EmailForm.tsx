@@ -1,8 +1,8 @@
 import { z } from "zod";
+import { useSetters } from "@/context";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useSetters } from "@/components/login";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const PORT = process.env.DJANGO_API_PORT || "8000";

@@ -1,5 +1,6 @@
+import { useSetters } from "@/context";
+import { RegisterForm } from "@/components/login";
 import { IoArrowBackCircle } from "react-icons/io5";
-import { useSetters, RegisterForm } from "@/components/login";
 
 export default function CompleteAccountContainer() {
   const { userEmail, setInitialLanding } = useSetters();

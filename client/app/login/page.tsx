@@ -1,4 +1,5 @@
-import { LoginContainer, SetterProvider } from "@/components/login";
+import { SetterProvider } from "@/context";
+import { LoginContainer } from "@/components/login";
 
 export default function LoginRoute() {
   return (
