@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { ValidationMsg } from "@/components/login";
+import { ErrorMsg } from "@/components/login";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const PORT = process.env.DJANGO_API_PORT || "8000";
@@ -95,7 +95,7 @@ export default function Form() {
           {...control.register("full_name")}
         />
         {errors.full_name && (
-          <ValidationMsg
+          <ErrorMsg
             validationError={errors.full_name.message?.toString()}
           />
         )}
@@ -114,7 +114,7 @@ export default function Form() {
           {...control.register("password")}
         />
         {errors.password && (
-          <ValidationMsg
+          <ErrorMsg
             validationError={errors.password.message?.toString()}
           />
         )}
@@ -133,7 +133,7 @@ export default function Form() {
           {...control.register("password2")}
         />
         {errors.confirmPassword && (
-          <ValidationMsg
+          <ErrorMsg
             validationError={errors.confirmPassword.message?.toString()}
           />
         )}

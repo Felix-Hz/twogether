@@ -1,12 +1,9 @@
-"use client";
-
 import { z } from "zod";
-import { useState } from "react";
 // import { hash } from "bcryptjs";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ValidationMsg } from "@/components/login";
+import { ErrorMsg } from "@/components/login";
 import { TbEye, TbEyeClosed } from "react-icons/tb";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useGlobalSetters, useLoginSetters } from "@/context";
@@ -16,10 +13,14 @@ const API_ADDRESS =
   process.env.DJANGO_API_ADDRESS || `http://localhost:${PORT}`;
 
 export default function Form() {
-  const { userEmail } = useLoginSetters();
-  const { jwtToken, setJwtToken } = useGlobalSetters();
-  const [showInvalid, setShowInvalid] = useState(false);
-  const [passwordVisible, setPasswordVisible] = useState(false);
+  const {
+    userEmail,
+    showInvalid,
+    passwordVisible,
+    setShowInvalid,
+    setPasswordVisible,
+  } = useLoginSetters();
+  const { setJwtToken } = useGlobalSetters();
 
   const formSchema = z.object({
     password: z.string().min(1, { message: "This field has to be filled." }),
@@ -93,14 +94,11 @@ export default function Form() {
         </div>
       </div>
       <div className="space-y-2 pt-4">
-        <p>
-          {showInvalid ? (
-            <ValidationMsg validationError={"Invalid credentials."} />
-          ) : (
-            ""
-          )}
-        </p>
-
+        {showInvalid ? (
+          <ErrorMsg validationError={"Invalid credentials"} />
+        ) : (
+          ""
+        )}
         <Button className="w-full text-lg" type="submit">
           Continue
         </Button>

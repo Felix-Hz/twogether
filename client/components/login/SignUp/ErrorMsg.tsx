@@ -1,10 +1,10 @@
 import { MdError } from "react-icons/md";
 
-interface ValidationMsgProps {
+interface ErrorMsgProps {
   validationError: string | undefined;
 }
 
-const ValidationMsg: React.FC<ValidationMsgProps> = ({ validationError }) => {
+const ErrorMsg: React.FC<ErrorMsgProps> = ({ validationError }) => {
   return (
     <p className="py-1.5 border-2 border-red-500/60 bg-red-500/15 rounded flex items-center">
       <MdError className="mx-2 text-lg text-red-500 flex-shrink-0" />
@@ -15,4 +15,4 @@ const ValidationMsg: React.FC<ValidationMsgProps> = ({ validationError }) => {
   );
 };
 
-export default ValidationMsg;
+export default ErrorMsg;
