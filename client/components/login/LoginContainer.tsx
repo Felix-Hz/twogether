@@ -16,6 +16,9 @@ export default function LoginContainer() {
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="max-w-sm space-y-4 px-4 py-8 rounded-lg md:max-w-full md:p-24">
+        {/* ========================== *
+         *           LOGO              *
+         * =========================== */} 
         {(userExists || initialLanding) && (
           <Image
             src="/images/logo_red.svg"
@@ -26,13 +29,16 @@ export default function LoginContainer() {
           />
         )}
 
+        {/* ========================== *
+         *     RENDER USER JOURNEY     *
+         * =========================== */}
         {initialLanding && <BaseLogin />}
         {userExists && !initialLanding && <WelcomeBackContainer />}
         {!userExists && !initialLanding && <CompleteAccountContainer />}
 
-        {/* ==========================
-                    TERMS&COND
-            ==========================*/}
+        {/* ========================== *
+         *         TERMS&COND          *
+         * =========================== */}
         {!userExists && (
           <p className="text-gray-500 dark:text-gray-400 text-center text-xs py-3">
             By signing up, you are creating a Twogether account and agree to our{" "}

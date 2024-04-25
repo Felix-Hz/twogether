@@ -18,9 +18,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <GlobalSetterProvider>
-        <body className={inter.className}>{children}</body>
-      </GlobalSetterProvider>
+      <body className={inter.className}>
+        <GlobalSetterProvider>{children}</GlobalSetterProvider>
+      </body>
     </html>
   );
 }
