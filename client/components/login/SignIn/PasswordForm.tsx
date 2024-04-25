@@ -36,6 +36,7 @@ export default function Form() {
     setPasswordVisible((prev) => !prev);
   };
 
+
   const onSubmit = async (data: Record<string, any>) => {
     // const hashedPassword = await hash(data.password, 10);
     // data["password"] = hashedPassword;
