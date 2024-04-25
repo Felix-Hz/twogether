@@ -1,6 +1,7 @@
 "use client";
 
 import { z } from "zod";
+// import { hash } from "bcryptjs";
 import { useLoginSetters } from "@/context";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
@@ -52,6 +53,9 @@ export default function Form() {
   });
 
   const onSubmit = async (data: Record<string, any>) => {
+    // const hashedPassword = await hash(data.password, 10);
+    // data["password"] = hashedPassword;
+    delete data.password2;
     data["email"] = userEmail;
     const body = JSON.stringify(data);
 
@@ -128,9 +132,9 @@ export default function Form() {
           type="password"
           {...control.register("password2")}
         />
-        {errors.password2 && (
+        {errors.confirmPassword && (
           <ValidationMsg
-            validationError={errors.password2.message?.toString()}
+            validationError={errors.confirmPassword.message?.toString()}
           />
         )}
       </div>

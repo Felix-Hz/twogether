@@ -1,7 +1,7 @@
 "use client";
 
 import { z } from "zod";
-import { hash } from "bcryptjs";
+// import { hash } from "bcryptjs";
 import { useState } from "react";
 import { useLoginSetters } from "@/context";
 import { useForm } from "react-hook-form";
@@ -33,9 +33,9 @@ export default function Form() {
   };
 
   const onSubmit = async (data: Record<string, any>) => {
-    const hashedPassword = await hash(data.password, 10);
+    // const hashedPassword = await hash(data.password, 10);
+    // data["password"] = hashedPassword;
     data["email"] = userEmail;
-    data["password"] = hashedPassword;
 
     const body = JSON.stringify(data);
 
