@@ -13,22 +13,15 @@ from dotenv import load_dotenv
 load_dotenv()
 
 ENVIRONMENT = os.getenv("ENV", "dev")
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
+BASE_DIR = (
+    # Build paths inside the project like this: BASE_DIR / 'subdir'.
+    Path(__file__)
+    .resolve()
+    .parent.parent
+)
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+DEBUG = True  # SECURITY WARNING: don't run with debug turned on in production!
 ALLOWED_HOSTS = []
-
 
 """===============================================================*|
 |                        APP DEFINITION                            |
@@ -59,13 +52,19 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
 ]
 
+# DRF will use token authentication by default for all API views unless explicitly overridden.
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.TokenAuthentication",
+    ),
+}
+
 """===============================================================*|
 |                        CORS HEADERS C                            |
 |*==============================================================="""
 # CORS_ALLOWED_ORIGINS = ["http://localhost:3030"]
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-
 
 ROOT_URLCONF = "core.urls"
 
@@ -91,7 +90,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "core.wsgi.application"
-
 
 """
 =============================================================== 
