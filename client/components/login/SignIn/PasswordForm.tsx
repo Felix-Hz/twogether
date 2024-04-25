@@ -1,9 +1,12 @@
+"use client";
+
 import { z } from "zod";
 // import { hash } from "bcryptjs";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { ErrorMsg } from "@/components/login";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ErrorMsg } from "@/components/login";
 import { TbEye, TbEyeClosed } from "react-icons/tb";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useGlobalSetters, useLoginSetters } from "@/context";
@@ -13,6 +16,7 @@ const API_ADDRESS =
   process.env.DJANGO_API_ADDRESS || `http://localhost:${PORT}`;
 
 export default function Form() {
+  const router = useRouter();
   const {
     userEmail,
     showInvalid,
@@ -36,7 +40,6 @@ export default function Form() {
     setPasswordVisible((prev) => !prev);
   };
 
-
   const onSubmit = async (data: Record<string, any>) => {
     // const hashedPassword = await hash(data.password, 10);
     // data["password"] = hashedPassword;
@@ -59,6 +62,7 @@ export default function Form() {
         const responseData = await response.json();
         setShowInvalid(false);
         setJwtToken(responseData.access_token);
+        router.push("/dashboard");
       } else {
         setShowInvalid(true);
       }

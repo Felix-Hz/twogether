@@ -1,6 +1,9 @@
+"use client";
+
 import { z } from "zod";
 // import { hash } from "bcryptjs";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { useLoginSetters } from "@/context";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,6 +17,8 @@ const API_ADDRESS =
   process.env.DJANGO_API_ADDRESS || `http://localhost:${PORT}`;
 
 export default function Form() {
+  const router = useRouter();
+
   const {
     userEmail,
     passwordVisible,
@@ -90,8 +95,8 @@ export default function Form() {
     * @NOTE: API returns status code. *
     ================================= */
     if (response.status === 201) {
-      console.log(`User created successfully ${response.status}`);
       setUserCreated(true);
+      router.push("/dashboard");
     } else {
       console.error(`Error ${response.status}`);
     }
