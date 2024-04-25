@@ -3,8 +3,8 @@ from .models import CustomUser
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.authtoken.models import Token
-from django.views.decorators.csrf import csrf_exempt
+# from django.views.decorators.csrf import csrf_exempt
+from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer
@@ -65,11 +65,16 @@ class SignInAPIView(APIView):
             email = serializer.validated_data["email"]
             password = serializer.validated_data["password"]
             user = authenticate(request, email=email, password=password)
+
             if user is not None:
                 login(request, user)
-                token, created = Token.objects.get_or_create(user=user)
+                access_token = RefreshToken.for_user(user)
+
                 return Response(
-                    {"message": "Login successful", "token": token.key},
+                    {
+                        "message": "Login successful",
+                        "access_token": str(access_token.access_token),
+                    },
                     status=status.HTTP_200_OK,
                 )
             else:
