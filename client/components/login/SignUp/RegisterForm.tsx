@@ -1,13 +1,12 @@
-"use client";
-
 import { z } from "zod";
 // import { hash } from "bcryptjs";
-import { useLoginSetters } from "@/context";
 import { useForm } from "react-hook-form";
+import { useLoginSetters } from "@/context";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
 import { ErrorMsg } from "@/components/login";
+import { Button } from "@/components/ui/button";
+import { TbEye, TbEyeClosed } from "react-icons/tb";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const PORT = process.env.DJANGO_API_PORT || "8000";
@@ -15,7 +14,14 @@ const API_ADDRESS =
   process.env.DJANGO_API_ADDRESS || `http://localhost:${PORT}`;
 
 export default function Form() {
-  const { userEmail, userCreated, setUserCreated } = useLoginSetters();
+  const {
+    userEmail,
+    passwordVisible,
+    confirmPasswordVisible,
+    setUserCreated,
+    setPasswordVisible,
+    setconfirmPasswordVisible,
+  } = useLoginSetters();
 
   const formSchema = z
     .object({
@@ -48,9 +54,21 @@ export default function Form() {
     handleSubmit,
     control,
     formState: { errors },
+    watch,
   } = useForm({
     resolver: zodResolver(formSchema),
   });
+
+  const passwordNotNull = watch("password") && watch("password").length > 0;
+  const confirmPasswordNotNull =
+    watch("password2") && watch("password2").length > 0;
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible((prev) => !prev);
+  };
+  const toggleConfirmPasswordVisibility = () => {
+    setconfirmPasswordVisible((prev) => !prev);
+  };
 
   const onSubmit = async (data: Record<string, any>) => {
     // const hashedPassword = await hash(data.password, 10);
@@ -80,8 +98,8 @@ export default function Form() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="pt-4">
-      <div className="space-y-2 pb-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="pt-2">
+      <div className="space-y-2 pb-3">
         <Label
           htmlFor="full_name"
           className="block text-left font-semibold text-md"
@@ -95,12 +113,10 @@ export default function Form() {
           {...control.register("full_name")}
         />
         {errors.full_name && (
-          <ErrorMsg
-            validationError={errors.full_name.message?.toString()}
-          />
+          <ErrorMsg validationError={errors.full_name.message?.toString()} />
         )}
       </div>
-      <div className="space-y-2 pb-4">
+      <div className="space-y-2 pb-3 relative">
         <Label
           htmlFor="password"
           className="block text-left font-semibold text-md"
@@ -110,16 +126,31 @@ export default function Form() {
         <Input
           id="password"
           placeholder="New password"
-          type="password"
+          type={passwordVisible ? "text" : "password"}
           {...control.register("password")}
         />
+        <div className="z-5 p-1 bg-white hover:cursor-pointer absolute top-8 right-2">
+          {passwordNotNull ? (
+            passwordVisible ? (
+              <TbEyeClosed
+                onClick={togglePasswordVisibility}
+                className="text-xl text-black/50"
+              />
+            ) : (
+              <TbEye
+                onClick={togglePasswordVisibility}
+                className="text-xl text-black/50"
+              />
+            )
+          ) : (
+            ""
+          )}
+        </div>
         {errors.password && (
-          <ErrorMsg
-            validationError={errors.password.message?.toString()}
-          />
+          <ErrorMsg validationError={errors.password.message?.toString()} />
         )}
       </div>
-      <div className="space-y-2 pb-4">
+      <div className="space-y-2 pb-3 relative">
         <Label
           htmlFor="password2"
           className="block text-left font-semibold text-md"
@@ -129,17 +160,33 @@ export default function Form() {
         <Input
           id="password2"
           placeholder="Confirm password"
-          type="password"
+          type={confirmPasswordVisible ? "text" : "password"}
           {...control.register("password2")}
         />
+        <div className="z-5 p-1 bg-white hover:cursor-pointer absolute top-8 right-2">
+          {confirmPasswordNotNull ? (
+            confirmPasswordVisible ? (
+              <TbEyeClosed
+                onClick={toggleConfirmPasswordVisibility}
+                className="text-xl text-black/50"
+              />
+            ) : (
+              <TbEye
+                onClick={toggleConfirmPasswordVisibility}
+                className="text-xl text-black/50"
+              />
+            )
+          ) : (
+            ""
+          )}
+        </div>
         {errors.confirmPassword && (
           <ErrorMsg
             validationError={errors.confirmPassword.message?.toString()}
           />
         )}
       </div>
-      <p>{userCreated ? "User created" : "Error creating the user"}</p>
-      <div className="space-y-2 pt-4">
+      <div className="space-y-2 pt-2">
         <Button className="w-full text-lg" type="submit">
           Continue
         </Button>

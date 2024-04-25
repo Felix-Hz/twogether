@@ -40,7 +40,7 @@ export default function LoginContainer() {
          *         TERMS&COND          *
          * =========================== */}
         {!userExists && (
-          <p className="text-gray-500 dark:text-gray-400 text-center text-xs py-3">
+          <p className="text-gray-500 dark:text-gray-400 text-center text-xs py-1.5">
             By signing up, you are creating a Twogether account and agree to our{" "}
             <Link className="font-semibold" href="#">
               Terms and Privacy Policy.

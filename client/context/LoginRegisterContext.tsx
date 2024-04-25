@@ -15,12 +15,14 @@ interface SetterContextType {
   setUserCreated: Dispatch<SetStateAction<boolean>>;
   setInitialLanding: Dispatch<SetStateAction<boolean>>;
   setPasswordVisible: Dispatch<SetStateAction<boolean>>;
+  setconfirmPasswordVisible: Dispatch<SetStateAction<boolean>>;
   userEmail: string;
   userExists: boolean;
   userCreated: boolean;
   showInvalid: boolean;
   initialLanding: boolean;
   passwordVisible: boolean;
+  confirmPasswordVisible: boolean;
 }
 
 const SetterContext = createContext<SetterContextType | undefined>(undefined);
@@ -34,6 +36,7 @@ export const LoginSetterProvider: React.FC<{ children: React.ReactNode }> = ({
   const [userCreated, setUserCreated] = useState(false);
   const [initialLanding, setInitialLanding] = useState(true);
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setconfirmPasswordVisible] = useState(false);
 
   return (
     <SetterContext.Provider
@@ -44,12 +47,14 @@ export const LoginSetterProvider: React.FC<{ children: React.ReactNode }> = ({
         setShowInvalid,
         setInitialLanding,
         setPasswordVisible,
+        setconfirmPasswordVisible,
         userEmail,
         userExists,
         showInvalid,
         userCreated,
         initialLanding,
         passwordVisible,
+        confirmPasswordVisible,
       }}
     >
       {children}
