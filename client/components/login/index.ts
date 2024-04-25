@@ -15,6 +15,7 @@ export { default as WelcomeBackContainer } from "./SignIn/WelcomeBackLogin";
 /*============================
             REGISTER
 =============================*/
-export { default as RegisterForm } from "./SignUp/RegisterForm";
 export { default as ErrorMsg } from "./SignUp/ErrorMsg";
+export { default as SuccessMsg } from "./SignUp/SuccessMsg";
+export { default as RegisterForm } from "./SignUp/RegisterForm";
 export { default as CompleteAccountContainer } from "./SignUp/CompleteAccount";

@@ -1,26 +1,22 @@
-"use client";
-
 import { z } from "zod";
 // import { hash } from "bcryptjs";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { useLoginSetters } from "@/context";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ErrorMsg } from "@/components/login";
 import { Button } from "@/components/ui/button";
 import { TbEye, TbEyeClosed } from "react-icons/tb";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ErrorMsg, SuccessMsg } from "@/components/login";
 
 const PORT = process.env.DJANGO_API_PORT || "8000";
 const API_ADDRESS =
   process.env.DJANGO_API_ADDRESS || `http://localhost:${PORT}`;
 
 export default function Form() {
-  const router = useRouter();
-
   const {
     userEmail,
+    userCreated,
     passwordVisible,
     confirmPasswordVisible,
     setUserCreated,
@@ -96,7 +92,10 @@ export default function Form() {
     ================================= */
     if (response.status === 201) {
       setUserCreated(true);
-      router.push("/dashboard");
+      setTimeout(() => {
+        window.location.href = "/login";
+        setUserCreated(false);
+      }, 3000);
     } else {
       console.error(`Error ${response.status}`);
     }
@@ -191,6 +190,7 @@ export default function Form() {
           />
         )}
       </div>
+      {userCreated && <SuccessMsg successMsg={"User created successfully"} />}
       <div className="space-y-2 pt-2">
         <Button className="w-full text-lg" type="submit">
           Continue
