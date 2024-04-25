@@ -38,16 +38,9 @@ class RegisterSerializer(serializers.ModelSerializer):
     Serializer for user registration
     """
 
-    password2 = serializers.CharField(write_only=True, required=True)
-
     class Meta:
         model = CustomUser
-        fields = (
-            "email",
-            "full_name",
-            "password",
-            "password2",
-        )
+        fields = ("email", "full_name", "password")
         extra_kwargs = {
             "password": {
                 "write_only": True,
@@ -57,17 +50,6 @@ class RegisterSerializer(serializers.ModelSerializer):
             "email": {"required": True},
             "full_name": {"required": True},
         }
-
-    def validate(self, attributes):
-        """
-        Validate password fields
-        """
-        if attributes["password"] != attributes["password2"]:
-            raise serializers.ValidationError(
-                {"password": "Password fields don't match."}
-            )
-
-        return attributes
 
     def create(self, validated_data):
         """
