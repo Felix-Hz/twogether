@@ -1,9 +1,13 @@
+"use client";
+
 import { z } from "zod";
 import { useLoginSetters } from "@/context";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { TbEye, TbEyeClosed } from "react-icons/tb";
+import { useState } from "react";
 
 const PORT = process.env.DJANGO_API_PORT || "8000";
 const API_ADDRESS =
@@ -11,14 +15,21 @@ const API_ADDRESS =
 
 export default function Form() {
   const { userEmail, setValidPassword, validPassword } = useLoginSetters();
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const formSchema = z.object({
     password: z.string().min(1, { message: "This field has to be filled." }),
   });
 
-  const { handleSubmit, control } = useForm({
+  const { handleSubmit, control, watch } = useForm({
     resolver: zodResolver(formSchema),
   });
+
+  const passwordNotNull = watch("password") && watch("password").length > 0;
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible((prev) => !prev);
+  };
 
   const onSubmit = async (data: Record<string, any>) => {
     data["email"] = userEmail;
@@ -45,13 +56,30 @@ export default function Form() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="space-y-2">
+      <div className="space-y-2 relative">
         <Input
           id="password"
           placeholder="Password"
-          type="password"
+          type={passwordVisible ? "text" : "password"}
           {...control.register("password")}
         />
+        <div className="z-5 p-2 bg-white hover:cursor-pointer absolute top-3 right-2 transform -translate-y-1/2">
+          {passwordNotNull ? (
+            passwordVisible ? (
+              <TbEyeClosed
+                onClick={togglePasswordVisibility}
+                className="text-xl text-black/50"
+              />
+            ) : (
+              <TbEye
+                onClick={togglePasswordVisibility}
+                className="text-xl text-black/50"
+              />
+            )
+          ) : (
+            ""
+          )}
+        </div>
       </div>
       <div className="space-y-2 pt-4">
         <p>{validPassword ? "Valid" : "Invalid"}</p>
