@@ -1,13 +1,14 @@
 "use client";
 
 import { z } from "zod";
+import { hash } from "bcryptjs";
+import { useState } from "react";
 import { useLoginSetters } from "@/context";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TbEye, TbEyeClosed } from "react-icons/tb";
-import { useState } from "react";
 
 const PORT = process.env.DJANGO_API_PORT || "8000";
 const API_ADDRESS =
@@ -32,7 +33,10 @@ export default function Form() {
   };
 
   const onSubmit = async (data: Record<string, any>) => {
+    const hashedPassword = await hash(data.password, 10);
     data["email"] = userEmail;
+    data["password"] = hashedPassword;
+
     const body = JSON.stringify(data);
 
     // @TODO: Encrypt password when travelling to the server.
