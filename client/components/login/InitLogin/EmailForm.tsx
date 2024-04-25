@@ -10,7 +10,7 @@ const PORT = process.env.DJANGO_API_PORT || "8000";
 const API_ADDRESS =
   process.env.DJANGO_API_ADDRESS || `http://localhost:${PORT}`;
 
-export default function Form() {
+export default function EmailForm() {
   var { setUserExists, setUserEmail, setInitialLanding } = useLoginSetters();
 
   const formSchema = z.object({

@@ -3,19 +3,21 @@
 import { z } from "zod";
 // import { hash } from "bcryptjs";
 import { useState } from "react";
-import { useLoginSetters } from "@/context";
 import { useForm } from "react-hook-form";
+import { useLoginSetters } from "@/context";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { ValidationMsg } from "@/components/login";
 import { TbEye, TbEyeClosed } from "react-icons/tb";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const PORT = process.env.DJANGO_API_PORT || "8000";
 const API_ADDRESS =
   process.env.DJANGO_API_ADDRESS || `http://localhost:${PORT}`;
 
 export default function Form() {
-  const { userEmail, setValidPassword, validPassword } = useLoginSetters();
+  const [showInvalid, setShowInvalid] = useState(false);
+  const { userEmail, setSessionData } = useLoginSetters();
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const formSchema = z.object({
@@ -52,9 +54,10 @@ export default function Form() {
     * @NOTE: API returns status code. *
     ================================= */
     if (response.status === 200) {
-      setValidPassword(true);
+      setShowInvalid(false);
+      setSessionData(true);
     } else {
-      console.log("Wrong password, man!");
+      setShowInvalid(true);
     }
   };
 
@@ -86,7 +89,14 @@ export default function Form() {
         </div>
       </div>
       <div className="space-y-2 pt-4">
-        <p>{validPassword ? "Valid" : "Invalid"}</p>
+        <p>
+          {showInvalid ? (
+            <ValidationMsg validationError={"Invalid credentials."} />
+          ) : (
+            ""
+          )}
+        </p>
+
         <Button className="w-full text-lg" type="submit">
           Continue
         </Button>

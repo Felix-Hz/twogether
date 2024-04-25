@@ -12,12 +12,12 @@ interface SetterContextType {
   setUserEmail: Dispatch<SetStateAction<string>>;
   setUserExists: Dispatch<SetStateAction<boolean>>;
   setUserCreated: Dispatch<SetStateAction<boolean>>;
-  setValidPassword: Dispatch<SetStateAction<boolean>>;
+  setSessionData: Dispatch<SetStateAction<boolean>>;
   setInitialLanding: Dispatch<SetStateAction<boolean>>;
   userEmail: string;
   userExists: boolean;
   userCreated: boolean;
-  validPassword: boolean;
+  sessionData: boolean;
   initialLanding: boolean;
 }
 
@@ -29,7 +29,7 @@ export const LoginSetterProvider: React.FC<{ children: React.ReactNode }> = ({
   const [userEmail, setUserEmail] = useState("");
   const [userExists, setUserExists] = useState(false);
   const [userCreated, setUserCreated] = useState(false);
-  const [validPassword, setValidPassword] = useState(false);
+  const [sessionData, setSessionData] = useState(false);
   const [initialLanding, setInitialLanding] = useState(true);
 
   return (
@@ -38,12 +38,12 @@ export const LoginSetterProvider: React.FC<{ children: React.ReactNode }> = ({
         setUserEmail,
         setUserExists,
         setUserCreated,
-        setValidPassword,
+        setSessionData,
         setInitialLanding,
         userEmail,
         userExists,
         userCreated,
-        validPassword,
+        sessionData,
         initialLanding,
       }}
     >
@@ -55,7 +55,9 @@ export const LoginSetterProvider: React.FC<{ children: React.ReactNode }> = ({
 export const useLoginSetters = () => {
   const context = useContext(SetterContext);
   if (!context) {
-    throw new Error("useLoginSetters must be used within a LoginSetterProvider");
+    throw new Error(
+      "useLoginSetters must be used within a LoginSetterProvider"
+    );
   }
   return context;
 };
