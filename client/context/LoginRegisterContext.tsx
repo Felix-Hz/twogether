@@ -12,12 +12,10 @@ interface SetterContextType {
   setUserEmail: Dispatch<SetStateAction<string>>;
   setUserExists: Dispatch<SetStateAction<boolean>>;
   setUserCreated: Dispatch<SetStateAction<boolean>>;
-  setSessionData: Dispatch<SetStateAction<boolean>>;
   setInitialLanding: Dispatch<SetStateAction<boolean>>;
   userEmail: string;
   userExists: boolean;
   userCreated: boolean;
-  sessionData: boolean;
   initialLanding: boolean;
 }
 
@@ -29,7 +27,6 @@ export const LoginSetterProvider: React.FC<{ children: React.ReactNode }> = ({
   const [userEmail, setUserEmail] = useState("");
   const [userExists, setUserExists] = useState(false);
   const [userCreated, setUserCreated] = useState(false);
-  const [sessionData, setSessionData] = useState(false);
   const [initialLanding, setInitialLanding] = useState(true);
 
   return (
@@ -38,12 +35,10 @@ export const LoginSetterProvider: React.FC<{ children: React.ReactNode }> = ({
         setUserEmail,
         setUserExists,
         setUserCreated,
-        setSessionData,
         setInitialLanding,
         userEmail,
         userExists,
         userCreated,
-        sessionData,
         initialLanding,
       }}
     >

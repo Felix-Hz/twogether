@@ -1,23 +1,24 @@
 "use client";
 
 import { z } from "zod";
-// import { hash } from "bcryptjs";
 import { useState } from "react";
+// import { hash } from "bcryptjs";
 import { useForm } from "react-hook-form";
-import { useLoginSetters } from "@/context";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ValidationMsg } from "@/components/login";
 import { TbEye, TbEyeClosed } from "react-icons/tb";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useGlobalSetters, useLoginSetters } from "@/context";
 
 const PORT = process.env.DJANGO_API_PORT || "8000";
 const API_ADDRESS =
   process.env.DJANGO_API_ADDRESS || `http://localhost:${PORT}`;
 
 export default function Form() {
+  const { userEmail } = useLoginSetters();
+  const { jwtToken, setJwtToken } = useGlobalSetters();
   const [showInvalid, setShowInvalid] = useState(false);
-  const { userEmail, setSessionData } = useLoginSetters();
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const formSchema = z.object({
@@ -39,25 +40,28 @@ export default function Form() {
     // data["password"] = hashedPassword;
     data["email"] = userEmail;
 
-    const body = JSON.stringify(data);
-
     // @TODO: Encrypt password when travelling to the server.
-    const response = await fetch(`${API_ADDRESS}/user/signin/`, {
-      body,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    try {
+      const response = await fetch(`${API_ADDRESS}/user/signin/`, {
+        body: JSON.stringify(data),
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    /* ================================
+      /* ==============================
     * @NOTE: API returns status code. *
     ================================= */
-    if (response.status === 200) {
-      setShowInvalid(false);
-      setSessionData(true);
-    } else {
-      setShowInvalid(true);
+      if (response.ok) {
+        const responseData = await response.json();
+        setShowInvalid(false);
+        setJwtToken(responseData.access_token);
+      } else {
+        setShowInvalid(true);
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 

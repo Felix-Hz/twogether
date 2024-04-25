@@ -10,9 +10,9 @@ import {
 
 interface SetterContextType {
   setTheme: Dispatch<SetStateAction<string>>;
-  setUserSession: Dispatch<SetStateAction<string>>;
+  setJwtToken: Dispatch<SetStateAction<string>>;
   theme: string;
-  userSession: string;
+  jwtToken: string;
 }
 
 const SetterContext = createContext<SetterContextType | undefined>(undefined);
@@ -21,15 +21,15 @@ export const GlobalSetterProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [theme, setTheme] = useState("dark");
-  const [userSession, setUserSession] = useState("");
+  const [jwtToken, setJwtToken] = useState("");
 
   return (
     <SetterContext.Provider
       value={{
         setTheme,
-        setUserSession,
+        setJwtToken,
         theme,
-        userSession,
+        jwtToken,
       }}
     >
       {children}
