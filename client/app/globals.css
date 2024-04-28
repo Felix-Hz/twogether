@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+===========================
+    PALLETTE INSPIRATION
+===========================
+PATREON RED: f96854
+PATREON DARK BLUE: 052d49
+===========================
+SPOTIFY
+Green= #1db954	
+Dark grey= #212121	
+Black= #121212	
+Grey= #535353	
+Light grey= #b3b3b3
+===========================
+*/
+
 :root {
   /* Background colors */
   --bg-primary: #f7f7f7;
